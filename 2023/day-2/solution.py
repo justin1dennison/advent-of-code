@@ -27,9 +27,22 @@ def one(data) -> int:
             game_ids.append(game_id) 
     return sum(game_ids)
 
+def two(data) -> int:
+    def power_of(game: tuple[int, list[tuple[str, int]]]) -> int:
+        game_id, draws = game
+        reds = max(d.get("red", 0) for d in draws)
+        blues = max(d.get("blue", 0) for d in draws)
+        greens = max(d.get("green", 0) for d in draws)
+        return reds * blues * greens 
+
+    games = [parse_line(line) for line in data.splitlines() if line]
+    return sum(power_of(game)  for game in games)
+
 
 if __name__ == "__main__":
     data = read_data("./input.txt")
     assert one(read_data("./sample-part1.txt")) == 8, "Part 1 Sample Data"
     print(one(data))
+    assert two(read_data("./sample-part1.txt")) == 2286, "Part 2 Sample Data"
+    print(two(data))
     
